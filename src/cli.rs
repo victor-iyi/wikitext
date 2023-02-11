@@ -1,4 +1,4 @@
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use std::path::PathBuf;
 
 #[derive(Parser, Debug)]
@@ -15,13 +15,12 @@ pub struct Cli {
   #[arg(short, long, default_value = "data/wikitext-tokenizer.json")]
   pub save_path: PathBuf,
 
-  // /// List of possible tokenizers.
-  // #[arg(
-  //   short, long, default_value_t=TokenizerType::BPE,
-  //   value_parser=clap::builder::PossibleValuesParser::new(["bpe", "wordpiece"])
-  //   // .map(|s| s.parse::<TokenizerType>().unwrap()),
-  // )]
-  // pub tokenizer: TokenizerType,
+  /// List of possible tokenizers.
+  #[arg(
+    long, value_enum, default_value_t=TokenizerType::BPE,
+  )]
+  pub tokenizer: TokenizerType,
+
   /// Train the tokenizer
   #[arg(long)]
   pub train: bool,
@@ -31,7 +30,7 @@ pub struct Cli {
   pub pretty: bool,
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, ValueEnum, Debug)]
 pub enum TokenizerType {
   /// Byte-Pair Encoding tokenizer
   BPE,
@@ -44,7 +43,7 @@ impl std::fmt::Display for TokenizerType {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
     let s = match self {
       Self::BPE => "bpe",
-      Self::WordPiece => "wordpeice",
+      Self::WordPiece => "word-peice",
     };
     s.fmt(f)
   }
@@ -56,7 +55,7 @@ impl std::str::FromStr for TokenizerType {
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
       "bpe" => Ok(Self::BPE),
-      "wordpeice" => Ok(Self::WordPiece),
+      "word-peice" => Ok(Self::WordPiece),
       _ => Err(format!("Unknown tokenizer {s}")),
     }
   }

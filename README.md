@@ -31,6 +31,7 @@ To train a BPE tokenizer on the [wikitext-103] dataset run:
 ```sh
 cargo r -- \
   --train \
+  --tokenizer bpe \
   --data-dir data/wikitext-103-raw/ \
   --save-path data/wikitext-tokenizer.json
 ```
