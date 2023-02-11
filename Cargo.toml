@@ -1,10 +1,19 @@
 [package]
 name = "wikitext"
 version = "0.1.0"
+authors = ["Victor I. Afolabi <javafolabi@gmail.com>"]
+description = "Train and perform NLP tasks on the wikitext-103 dataset"
+repository = "https://github.com/victor-iyi/wikitext"
 edition = "2021"
+readme = "README.md"
+license = "MIT"
+keywords = ["nlp", "wikitext", "tokenizer-nlp"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 clap = { version = "4.1.4", features = ["derive"] }
 tokenizers = "0.13.2"
+
+[badges]
+maintenance = { status = "experimental" }
