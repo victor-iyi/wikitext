@@ -1,3 +1,7 @@
+use clap::Parser;
+use wikitext::Cli;
+
 fn main() {
-  println!("Hello, world!");
+  let args = Cli::parse();
+  println!("{args:?}");
 }

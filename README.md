@@ -9,6 +9,8 @@
 
 [![CI](https://github.com/victor-iyi/wikitext/actions/workflows/ci.yml/badge.svg)](https://github.com/victor-iyi/wikitext/actions/workflows/ci.yml)
 
+## Donwload the data
+
 Download the [wikitext-103] (516M of text) dataset.
 
 [wikitext-103]: https://blog.einstein.ai/the-wikitext-long-term-dependency-language-modeling-dataset/
@@ -20,6 +22,17 @@ wget -P data/ https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-10
 # Unzip data.
 cd data/
 unzip wikitext-103-raw-v1.zip
+```
+
+## Train the tokenizer
+
+To train a BPE tokenizer on the [wikitext-103] dataset run:
+
+```sh
+cargo r -- \
+  --train \
+  --data-dir data/wikitext-103-raw/ \
+  --save-path data/wikitext-tokenizer.json
 ```
 
 ## Contribution
