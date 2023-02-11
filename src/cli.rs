@@ -17,7 +17,7 @@ pub struct Cli {
 
   /// List of possible tokenizers.
   #[arg(
-    long, value_enum, default_value_t=TokenizerType::BPE,
+    long, value_enum, default_value_t=TokenizerType::Bpe,
   )]
   pub tokenizer: TokenizerType,
 
@@ -33,7 +33,7 @@ pub struct Cli {
 #[derive(Copy, Clone, PartialEq, Eq, ValueEnum, Debug)]
 pub enum TokenizerType {
   /// Byte-Pair Encoding tokenizer
-  BPE,
+  Bpe,
 
   /// WordPiece toeknizer
   WordPiece,
@@ -42,7 +42,7 @@ pub enum TokenizerType {
 impl std::fmt::Display for TokenizerType {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
     let s = match self {
-      Self::BPE => "bpe",
+      Self::Bpe => "bpe",
       Self::WordPiece => "word-peice",
     };
     s.fmt(f)
@@ -54,7 +54,7 @@ impl std::str::FromStr for TokenizerType {
 
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
-      "bpe" => Ok(Self::BPE),
+      "bpe" => Ok(Self::Bpe),
       "word-peice" => Ok(Self::WordPiece),
       _ => Err(format!("Unknown tokenizer {s}")),
     }
