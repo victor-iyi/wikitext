@@ -1,6 +1,12 @@
 use std::path::Path;
+
 use tokenizers::{
-  models::bpe::{BpeTrainerBuilder, BPE},
+  models::{
+    bpe::{BpeTrainerBuilder, BPE},
+    unigram::{Unigram, UnigramTrainerBuilder},
+    wordlevel::{WordLevel, WordLevelTrainerBuilder},
+    wordpiece::{WordPiece, WordPieceTrainerBuilder},
+  },
   normalizers::{strip::Strip, unicode::NFC, utils::Sequence},
   pre_tokenizers::byte_level::ByteLevel,
   AddedToken, Result, TokenizerBuilder,
@@ -35,5 +41,99 @@ pub fn train_bpe(save_path: &Path, files: &[String]) -> Result<()> {
     .train_from_files(&mut trainer, files.to_owned())?
     .save(save_path, true)?;
 
+  Ok(())
+}
+
+/// Train a `WordPiece` tokenizer.
+pub fn train_word_piece(save_path: &Path, files: &[String]) -> Result<()> {
+  let mut tokenizer = TokenizerBuilder::new()
+    .with_model(WordPiece::default())
+    .with_normalizer(Some(Sequence::new(vec![
+      Strip::new(true, true).into(),
+      NFC.into(),
+    ])))
+    .with_pre_tokenizer(Some(ByteLevel::default()))
+    .with_post_processor(Some(ByteLevel::default()))
+    .with_decoder(Some(ByteLevel::default()))
+    .build()?;
+
+  let mut trainer = WordPieceTrainerBuilder::new()
+    .show_progress(true)
+    .special_tokens(vec![
+      AddedToken::from(String::from("[START]"), true),
+      AddedToken::from(String::from("[END]"), true),
+      AddedToken::from(String::from("[PAD]"), true),
+      AddedToken::from(String::from("[MASK]"), true),
+      AddedToken::from(String::from("[UNK]"), true),
+    ])
+    .build();
+
+  // train tokenizer on files.
+  tokenizer
+    .train_from_files(&mut trainer, files.to_owned())?
+    .save(save_path, true)?;
+
+  Ok(())
+}
+
+/// Train a `Unigram` tokenizer.
+pub fn train_unigram(save_path: &Path, files: &[String]) -> Result<()> {
+  let mut tokenizer = TokenizerBuilder::new()
+    .with_model(Unigram::default())
+    .with_normalizer(Some(Sequence::new(vec![
+      Strip::new(true, true).into(),
+      NFC.into(),
+    ])))
+    .with_pre_tokenizer(Some(ByteLevel::default()))
+    .with_post_processor(Some(ByteLevel::default()))
+    .with_decoder(Some(ByteLevel::default()))
+    .build()?;
+
+  let mut trainer = UnigramTrainerBuilder::default()
+    .show_progress(true)
+    .special_tokens(vec![
+      AddedToken::from(String::from("[START]"), true),
+      AddedToken::from(String::from("[END]"), true),
+      AddedToken::from(String::from("[PAD]"), true),
+      AddedToken::from(String::from("[MASK]"), true),
+      AddedToken::from(String::from("[UNK]"), true),
+    ])
+    .build()?;
+
+  // train tokenizer on files.
+  tokenizer
+    .train_from_files(&mut trainer, files.to_owned())?
+    .save(save_path, true)?;
+  Ok(())
+}
+
+/// Train a `WordLevel` tokenizer.
+pub fn train_word_level(save_path: &Path, files: &[String]) -> Result<()> {
+  let mut tokenizer = TokenizerBuilder::new()
+    .with_model(WordLevel::default())
+    .with_normalizer(Some(Sequence::new(vec![
+      Strip::new(true, true).into(),
+      NFC.into(),
+    ])))
+    .with_pre_tokenizer(Some(ByteLevel::default()))
+    .with_post_processor(Some(ByteLevel::default()))
+    .with_decoder(Some(ByteLevel::default()))
+    .build()?;
+
+  let mut trainer = WordLevelTrainerBuilder::default()
+    .show_progress(true)
+    .special_tokens(vec![
+      AddedToken::from(String::from("[START]"), true),
+      AddedToken::from(String::from("[END]"), true),
+      AddedToken::from(String::from("[PAD]"), true),
+      AddedToken::from(String::from("[MASK]"), true),
+      AddedToken::from(String::from("[UNK]"), true),
+    ])
+    .build()?;
+
+  // train tokenizer on files.
+  tokenizer
+    .train_from_files(&mut trainer, files.to_owned())?
+    .save(save_path, true)?;
   Ok(())
 }

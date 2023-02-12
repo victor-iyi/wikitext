@@ -16,6 +16,10 @@ pub struct Cli {
   #[arg(short, long, default_value = "data/wikitext-tokenizer.json")]
   pub save_path: PathBuf,
 
+  /// Sentence to encode with trained tokenizer.
+  #[arg(long)]
+  pub sentence: Option<String>,
+
   /// List of possible tokenizer algorithms to use.
   #[arg(
     long, value_enum, default_value_t=TokenizerType::Bpe,

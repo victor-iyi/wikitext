@@ -19,7 +19,11 @@ fn main() -> Result<()> {
     let tokenizer = Tokenizer::from_file(&args.save_path)?;
     // TODO: Add as a cli argument.
     let sentence = "Testing out my new tokenizer.";
-    let output = tokenizer.encode(sentence, true)?;
+    let output = if let Some(sentence) = args.sentence.as_deref() {
+      tokenizer.encode(sentence, true)
+    } else {
+      tokenizer.encode("The quick brown fox jumps over the lazy dog.", true)
+    }?;
 
     println!("Sentence: {sentence}");
     println!("Tokens: {:?}", output.get_tokens());
