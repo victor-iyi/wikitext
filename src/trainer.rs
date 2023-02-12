@@ -29,14 +29,10 @@ pub fn train(args: &super::Cli) -> Result<()> {
   ];
 
   match args.tokenizer {
-    TokenizerType::Bpe => train_bpe(&args, &files, &special_tokens),
-    TokenizerType::Unigram => train_unigram(&args, &files, &special_tokens),
-    TokenizerType::WordLevel => {
-      train_word_level(&args, &files, &special_tokens)
-    }
-    TokenizerType::WordPiece => {
-      train_word_piece(&args, &files, &special_tokens)
-    }
+    TokenizerType::Bpe => train_bpe(args, &files, &special_tokens),
+    TokenizerType::Unigram => train_unigram(args, &files, &special_tokens),
+    TokenizerType::WordLevel => train_word_level(args, &files, &special_tokens),
+    TokenizerType::WordPiece => train_word_piece(args, &files, &special_tokens),
   }
 }
 
