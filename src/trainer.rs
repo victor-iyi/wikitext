@@ -33,7 +33,7 @@ pub fn train_bpe(save_path: &Path, files: &[String]) -> Result<()> {
   // train tokenizer on files.
   tokenizer
     .train_from_files(&mut trainer, files.to_owned())?
-    .save(&save_path, true)?;
+    .save(save_path, true)?;
 
   Ok(())
 }
