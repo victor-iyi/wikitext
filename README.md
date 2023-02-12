@@ -20,8 +20,7 @@ Download the [wikitext-103] (516M of text) dataset.
 wget -P data/ https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-raw-v1.zip
 
 # Unzip data.
-cd data/
-unzip wikitext-103-raw-v1.zip
+unzip data/wikitext-103-raw-v1.zip -d data/
 ```
 
 ## Train the tokenizer
