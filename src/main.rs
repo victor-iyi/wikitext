@@ -14,7 +14,7 @@ fn main() -> Result<()> {
 
     println!("Training {} tokenizer on {files:?}", &args.tokenizer);
 
-    wikitext::train_bpe(&args.save_path, &files)?;
+    wikitext::train(&args)?;
   } else if args.save_path.is_file() {
     let tokenizer = Tokenizer::from_file(&args.save_path)?;
     // TODO: Add as a cli argument.
